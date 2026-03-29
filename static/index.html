@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlgoSignal | Advanced Predictive Intelligence</title>
+    <link rel="stylesheet" href="css/style.css?v=5">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="logo.png" alt="AlgoSignal Logo">
+                <span>AlgoSignal <small style="font-size: 0.6rem; color: var(--accent-color); vertical-align: super;">v3.0 (NEW)</small></span>
+            </div>
+            <ul class="nav-links">
+                <li class="nav-item"><a href="index.html" class="nav-link active"><i>⊞</i> Dashboard</a></li>
+                <li class="nav-item"><a href="engine.html" class="nav-link"><i>🧠</i> Signal Engine</a></li>
+                <li class="nav-item"><a href="backtesting.html" class="nav-link"><i>🕒</i> Backtesting</a></li>
+                <li class="nav-item"><a href="tabular.html" class="nav-link"><i>📊</i> Portfolio Analytics</a></li>
+                <li class="nav-item"><a href="alerts.html" class="nav-link"><i>🔔</i> Alerts</a></li>
+                <li class="nav-item"><a href="market.html" class="nav-link"><i>📉</i> Market Data</a></li>
+                <li class="nav-item"><a href="settings.html" class="nav-link"><i>⚙️</i> Settings</a></li>
+            </ul>
+
+            <div id="userProfile" class="user-sidebar-bottom">
+                <div class="user-info">
+                    <div class="avatar" id="userInitial">?</div>
+                    <div>
+                        <div id="userName" style="font-weight: 700; font-size: 0.9rem;">Guest User</div>
+                        <div style="font-size: 0.7rem; color: var(--text-secondary);">Free Tier</div>
+                    </div>
+                </div>
+                <button onclick="handleAuthAction()" id="authBtn" class="nav-link" style="width: 100%; border: none; background: none; cursor: pointer;">
+                    <i>🔑</i> Login
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <nav class="topbar">
+                <div class="topbar-search">
+                    <i>🔍</i>
+                    <input type="text" id="topSearch" placeholder="Search stock...">
+                </div>
+                <div class="topbar-right">
+                    <div class="topbar-clock">
+                        <i style="color:var(--text-secondary)">🕒</i>
+                        <span id="liveClock">Loading...</span>
+                    </div>
+                    <div class="topbar-icon" id="notificationBtn">
+                        <i>🔔</i>
+                        <span class="notification-dot"></span>
+                    </div>
+                    <div class="topbar-profile" id="topProfileInitial">?</div>
+                </div>
+            </nav>
+
+            <div class="page-container">
+            <header class="header">
+                <div>
+                        <h1>AI Signal Dashboard</h1>
+                        <p style="color: var(--text-secondary);">Real-time predictive intelligence for top Global assets</p>
+                </div>
+                <div class="live-badge" id="refreshTimes">
+                    <span class="pulse-dot"></span>
+                    LIVE ENGINE
+                </div>
+            </header>
+
+            <div class="stats-summary" id="statsSummary">
+                <div class="stat-card">
+                    <span class="stat-label">Active Buy</span>
+                    <div class="stat-val" style="color: var(--success-color);"><span id="buyCount">0</span></div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Active Sell</span>
+                    <div class="stat-val" style="color: var(--danger-color);"><span id="sellCount">0</span></div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Market Hold</span>
+                    <div class="stat-val" style="color: var(--color-hold);"><span id="holdCount">0</span></div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">AI Accuracy</span>
+                    <div class="stat-val" style="color: #bb86fc;"><span id="aiAccuracy">92.9%</span></div>
+                </div>
+            </div>
+
+            <div class="controls-row">
+                <div class="filter-group">
+                    <button class="filter-btn active" onclick="setFilter('all', this)">All Assets</button>
+                    <button class="filter-btn" onclick="setFilter('buy', this)"><i>📈</i> Buy</button>
+                    <button class="filter-btn" onclick="setFilter('sell', this)"><i>📉</i> Sell</button>
+                    <button class="filter-btn" onclick="setFilter('hold', this)"><i>✋</i> Hold</button>
+                </div>
+            </div>
+
+            <div class="stock-grid" id="stocksGrid">
+                <!-- Stock cards will be injected here by JS -->
+                <div class="loading">Analyzing market data...</div>
+            </div>
+            </div>
+            
+        </main>
+    </div>
+
+    <div id="toast"></div>
+    <script src="js/app.js?v=5"></script>
+</body>
+</html>

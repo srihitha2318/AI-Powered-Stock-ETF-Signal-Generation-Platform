@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Alerts | AlgoSignal</title>
+    <link rel="stylesheet" href="css/style.css?v=5">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        .alerts-hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        .alerts-icon {
+            font-size: 3.5rem;
+            animation: pulse-ring 2s infinite;
+        }
+        @keyframes pulse-ring {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+        .alerts-title {
+            font-size: 2rem;
+            font-weight: 900;
+            text-align: center;
+            background: linear-gradient(135deg, #ff8c00, #ff6600);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0;
+        }
+        .alerts-subtitle {
+            color: var(--text-secondary);
+            text-align: center;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+        .alert-tiers {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            width: 100%;
+        }
+        @media (max-width: 560px) {
+            .alert-tiers { grid-template-columns: 1fr; }
+        }
+        .tier-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            transition: border-color 0.2s;
+        }
+        .tier-card:hover { border-color: #ff8c00; }
+        .tier-icon { font-size: 1.5rem; }
+        .tier-title {
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #ff8c00;
+        }
+        .tier-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        .subscribe-box {
+            width: 100%;
+            background: linear-gradient(145deg, #161b22, #0d1117);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+        .subscribe-box h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+        .subscribe-box p {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            margin: 0 0 1.5rem 0;
+        }
+        .form-row {
+            display: flex;
+            gap: 0.75rem;
+        }
+        .form-row input {
+            flex: 1;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            color: #fff;
+            font-size: 0.9rem;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .form-row input:focus { border-color: #ff8c00; }
+        .form-row input::placeholder { color: var(--text-secondary); }
+        .activate-btn {
+            background: linear-gradient(135deg, #ff8c00, #ff6600);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            font-family: inherit;
+            transition: opacity 0.2s, transform 0.1s;
+        }
+        .activate-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        .activate-btn:active { transform: translateY(0); }
+        .activate-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .result-msg {
+            display: none;
+            margin-top: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .result-msg.success {
+            background: rgba(0,230,118,0.1);
+            border: 1px solid rgba(0,230,118,0.3);
+            color: #00e676;
+        }
+        .result-msg.error {
+            background: rgba(255,82,82,0.1);
+            border: 1px solid rgba(255,82,82,0.3);
+            color: #ff5252;
+        }
+        .schedule-banner {
+            width: 100%;
+            background: rgba(88,166,255,0.08);
+            border: 1px solid rgba(88,166,255,0.2);
+            border-radius: 12px;
+            padding: 0.9rem 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.82rem;
+            color: #58a6ff;
+        }
+        .schedule-banner span:first-child { font-size: 1.1rem; flex-shrink: 0; }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="logo.png" alt="AlgoSignal Logo">
+                <span>AlgoSignal <small style="font-size: 0.6rem; color: var(--accent-color); vertical-align: super;">v3.0 (NEW)</small></span>
+            </div>
+            <ul class="nav-links">
+                <li class="nav-item"><a href="index.html" class="nav-link"><i>⊞</i> Dashboard</a></li>
+                <li class="nav-item"><a href="engine.html" class="nav-link"><i>🧠</i> Signal Engine</a></li>
+                <li class="nav-item"><a href="backtesting.html" class="nav-link"><i>🕒</i> Backtesting</a></li>
+                <li class="nav-item"><a href="tabular.html" class="nav-link"><i>📊</i> Portfolio Analytics</a></li>
+                <li class="nav-item"><a href="alerts.html" class="nav-link active"><i>🔔</i> Alerts</a></li>
+                <li class="nav-item"><a href="market.html" class="nav-link"><i>📉</i> Market Data</a></li>
+                <li class="nav-item"><a href="settings.html" class="nav-link"><i>⚙️</i> Settings</a></li>
+            </ul>
+            <div id="userProfile" class="user-sidebar-bottom">
+                <div class="user-info">
+                    <div class="avatar" id="userInitial">?</div>
+                    <div>
+                        <div id="userName" style="font-weight: 700; font-size: 0.9rem;">Guest User</div>
+                        <div style="font-size: 0.7rem; color: var(--text-secondary);">Free Tier</div>
+                    </div>
+                </div>
+                <button onclick="handleAuthAction()" id="authBtn" class="nav-link" style="width: 100%; border: none; background: none; cursor: pointer;">
+                    <i>🔑</i> Login
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <nav class="topbar">
+                <div class="topbar-search">
+                    <i>🔍</i>
+                    <input type="text" id="topSearch" placeholder="Search stock...">
+                </div>
+                <div class="topbar-right">
+                    <div class="topbar-clock">
+                        <i style="color:var(--text-secondary)">🕒</i>
+                        <span id="liveClock">Loading...</span>
+                    </div>
+                    <div class="topbar-icon" id="notificationBtn">
+                        <i>🔔</i>
+                        <span class="notification-dot"></span>
+                    </div>
+                    <div class="topbar-profile" id="topProfileInitial">?</div>
+                </div>
+            </nav>
+
+            <div class="page-container">
+            <header class="header">
+                <div>
+                    <h1>Predictive Alerts</h1>
+                    <p style="color: var(--text-secondary);">Get high-conviction signals delivered directly to your workstation</p>
+                </div>
+            </header>
+
+            <div class="glass-form" style="max-width: 900px; margin: 0 auto; padding: 3rem;">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 1rem;">
+                    <i style="font-size: 1.5rem; color: var(--accent-color);">📧</i>
+                    <h2 style="font-size: 1.8rem; margin: 0;">Subscribe to 24/7 Intel</h2>
+                </div>
+                <p style="color: var(--text-secondary); margin-bottom: 2rem;">Our AI engine executes background jobs every 15 minutes. When a strategic <span style="color: var(--success-color); font-weight: 700;">BUY</span> or <span style="color: var(--danger-color); font-weight: 700;">SELL</span> signal is authenticated, you'll receive an instant notification.</p>
+                
+                <form id="subscribeForm" class="form-group" style="margin-bottom: 0;">
+                    <input type="email" id="alertEmail" placeholder="Enter your corporate or personal email..." required style="height: 60px; font-size: 1.1rem;">
+                    <button type="submit" class="btn-primary" id="activateBtn" style="height: 60px; font-size: 1.1rem; display: flex; align-items: center; gap: 10px;">
+                        <i>🚀</i> Activate Alerts
+                    </button>
+                </form>
+                <div id="resultMsg" class="result-msg" style="margin-top: 1rem; display: none;"></div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; max-width: 900px; margin: 3rem auto 0;">
+                <div class="stat-card" style="height: auto;">
+                    <h3 style="font-size: 1.2rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;">
+                        <i style="color: #bb86fc;">📈</i> System Workflow
+                    </h3>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div style="display: flex; gap: 1rem;">
+                            <span style="background: #bb86fc; color: black; width: 24px; height: 24px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem; flex-shrink: 0;">1</span>
+                            <div>
+                                <p style="font-weight: 700; font-size: 0.9rem;">Data Ingestion</p>
+                                <p style="font-size: 0.8rem; color: var(--text-secondary);">Yahoo Finance API Sync</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 1rem;">
+                            <span style="background: #bb86fc; color: black; width: 24px; height: 24px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem; flex-shrink: 0;">2</span>
+                            <div>
+                                <p style="font-weight: 700; font-size: 0.9rem;">Model Inference</p>
+                                <p style="font-size: 0.8rem; color: var(--text-secondary);">XGBoost Signal Generation</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card" style="height: auto;">
+                    <h3 style="font-size: 1.2rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;">
+                        <i style="color: var(--success-color);">🛡️</i> Platform Security
+                    </h3>
+                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 2rem;">
+                        <li style="display: flex; align-items: center; gap: 10px; font-size: 0.9rem;">
+                            <i style="color: var(--success-color);">✓</i> No Login Required
+                        </li>
+                        <li style="display: flex; align-items: center; gap: 10px; font-size: 0.9rem;">
+                            <i style="color: var(--success-color);">✓</i> End-to-End Encryption
+                        </li>
+                        <li style="display: flex; align-items: center; gap: 10px; font-size: 0.9rem;">
+                            <i style="color: var(--success-color);">✓</i> GDPR Compliant Data Handling
+                        </li>
+                        <li style="display: flex; align-items: center; gap: 10px; font-size: 0.9rem;">
+                            <i style="color: var(--success-color);">✓</i> One-Click Unsubscribe
+                        </li>
+                    </ul>
+                    
+                    <div style="border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+                        <p style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 1rem;">System active during 9:30 AM – 4:00 PM ET automatically. Need an instant scan?</p>
+                        <button id="manualSyncBtn" class="nav-link" style="width: 100%; border: 1px solid var(--border-color); background: rgba(255,255,255,0.05); cursor: pointer; border-radius: 8px; padding: 10px; font-weight: 700; color: #fff;">
+                            <i>⚡</i> Trigger Manual Market Sync
+                        </button>
+                    </div>
+                </div>
+            </div>
+            </div>
+            
+        </main>
+    </div>
+
+    <div id="toast">Alerts Activated! Check your inbox soon.</div>
+
+    <script src="js/app.js?v=3"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const emailInput = document.getElementById('alertEmail');
+            const form = document.getElementById('subscribeForm');
+            const btn = document.getElementById('activateBtn');
+            const resultMsg = document.getElementById('resultMsg');
+            const syncBtn = document.getElementById('manualSyncBtn');
+
+            // ── Manual Sync Button ──────────────────────────────────────────
+            if (syncBtn) {
+                syncBtn.addEventListener('click', async function() {
+                    const originalText = syncBtn.innerHTML;
+                    syncBtn.disabled = true;
+                    syncBtn.textContent = '⏳ Scanning Markets...';
+                    
+                    try {
+                        const response = await fetch('/api/alerts/trigger-manual', { method: 'POST' });
+                        const result = await response.json();
+                        alert(result.message);
+                    } catch (err) {
+                        alert('❌ Failed to trigger scan. Check server connection.');
+                    } finally {
+                        syncBtn.innerHTML = originalText;
+                        syncBtn.disabled = false;
+                    }
+                });
+            }
+
+            // ── Auto-fill with logged-in user's email ──────────────────────
+            const currentUser = JSON.parse(localStorage.getItem('user') || 'null');
+            if (currentUser && currentUser.email) {
+                emailInput.value = currentUser.email;
+                emailInput.style.opacity = '0.7';
+                emailInput.title = 'Using your account email';
+                // Add a small label to indicate it's the account email
+                const hint = document.createElement('div');
+                hint.style.cssText = 'font-size:0.75rem; color:#58a6ff; margin-top:0.4rem;';
+                hint.textContent = `✓ Using account email: ${currentUser.email}`;
+                form.insertBefore(hint, form.firstChild.nextSibling);
+            }
+
+            // ── Form submit handler ────────────────────────────────────────
+            if (form) {
+                form.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    const email = emailInput.value.trim();
+                    if (!email) return;
+
+                    btn.textContent = '⏳ Activating...';
+                    btn.disabled = true;
+                    resultMsg.style.display = 'none';
+
+                    try {
+                        const response = await fetch('/api/subscribe', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ email })
+                        });
+                        const result = await response.json();
+
+                        resultMsg.textContent = result.message || (response.ok ? 'Alerts activated!' : 'Something went wrong.');
+                        resultMsg.className = 'result-msg ' + (response.ok ? 'success' : 'error');
+                        resultMsg.style.display = 'block';
+
+                        // Don't reset if email was pre-filled from account
+                        if (response.ok && !currentUser) form.reset();
+                    } catch (err) {
+                        resultMsg.textContent = '❌ Connection error. Please make sure the server is running.';
+                        resultMsg.className = 'result-msg error';
+                        resultMsg.style.display = 'block';
+                    } finally {
+                        btn.textContent = 'Activate Alerts';
+                        btn.disabled = false;
+                        // Restore account email if it was pre-filled
+                        if (currentUser && currentUser.email) {
+                            emailInput.value = currentUser.email;
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
