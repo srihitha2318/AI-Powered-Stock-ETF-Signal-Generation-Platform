@@ -1,6 +1,6 @@
 # AlgoSignal AI: Professional Trading Intelligence Platform
 
-![AlgoSignal AI](https://raw.githubusercontent.com/SanjanaReddyMosra/AI-Powered-Stock-ETF-Signal-Generation-Platform/main/static/logo.png)
+![AlgoSignal AI](https://raw.githubusercontent.com/Srihitha2318/AI-Powered-Stock-ETF-Signal-Generation-Platform/main/static/logo.png)
 
 AlgoSignal AI is a high-performance, AI-driven stock and ETF signal generation platform. It leverages XGBoost machine learning models to provide real-time BUY/SELL/HOLD recommendations with integrated confidence metrics and price tracking.
 
@@ -27,7 +27,7 @@ AlgoSignal AI is a high-performance, AI-driven stock and ETF signal generation p
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/SanjanaReddyMosra/AI-Powered-Stock-ETF-Signal-Generation-Platform.git
+   git clone https://github.com/srihitha2318/AI-Powered-Stock-ETF-Signal-Generation-Platform.git
    cd AI-Powered-Stock-ETF-Signal-Generation-Platform
    ```
 
